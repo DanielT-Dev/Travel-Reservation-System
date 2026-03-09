@@ -1,0 +1,68 @@
+09 Mar 2026 18:57:05,211 INFO  CarsDBRepository 18 <init> - Initializing CarsDBRepository with properties: {jdbc.url=jdbc:sqlite:C:/Users/danie/Desktop/UBB/SEMESTRUL 4/PROGRAMMING ENVIRONMENTS/Repo/GradleModule1/cars.db} 
+09 Mar 2026 18:57:05,219 TRACE CarsDBRepository 37 add - Enter saving task Id=0 Tesla Model S 2019 
+09 Mar 2026 18:57:05,219 TRACE JdbcUtils 46 getConnection - Enter
+09 Mar 2026 18:57:05,219 TRACE JdbcUtils 23 getNewConnection - Enter
+09 Mar 2026 18:57:05,220 INFO  JdbcUtils 28 getNewConnection - trying to connect to database ... jdbc:sqlite:C:/Users/danie/Desktop/UBB/SEMESTRUL 4/PROGRAMMING ENVIRONMENTS/Repo/GradleModule1/cars.db
+09 Mar 2026 18:57:05,220 INFO  JdbcUtils 29 getNewConnection - user: null
+09 Mar 2026 18:57:05,220 INFO  JdbcUtils 30 getNewConnection - pass: null
+09 Mar 2026 18:57:06,159 TRACE JdbcUtils 55 getConnection - Exit with(org.sqlite.jdbc4.JDBC4Connection@614ca7df)
+09 Mar 2026 18:57:06,167 TRACE CarsDBRepository 45 add - Exit saved 1 instances 
+09 Mar 2026 18:57:06,167 TRACE CarsDBRepository 52 add - Exit
+09 Mar 2026 18:57:06,168 TRACE CarsDBRepository 80 findAll - Enter
+09 Mar 2026 18:57:06,168 TRACE JdbcUtils 46 getConnection - Enter
+09 Mar 2026 18:57:06,168 TRACE JdbcUtils 55 getConnection - Exit with(org.sqlite.jdbc4.JDBC4Connection@614ca7df)
+09 Mar 2026 18:57:06,170 TRACE CarsDBRepository 103 findAll - Exit with([Id=1 Dacia Sandero 2019, Id=2 Skoda Octavia 2020, Id=3 Tesla Model S 2019])
+09 Mar 2026 18:59:08,219 INFO  CarsDBRepository 18 <init> - Initializing CarsDBRepository with properties: {jdbc.url=jdbc:sqlite:C:/Users/danie/Desktop/UBB/SEMESTRUL 4/PROGRAMMING ENVIRONMENTS/Repo/GradleModule1/cars.db} 
+09 Mar 2026 18:59:08,227 TRACE CarsDBRepository 88 add - Enter saving task Id=0 Tesla Model S 2019 
+09 Mar 2026 18:59:08,228 TRACE JdbcUtils 46 getConnection - Enter
+09 Mar 2026 18:59:08,228 TRACE JdbcUtils 23 getNewConnection - Enter
+09 Mar 2026 18:59:08,228 INFO  JdbcUtils 28 getNewConnection - trying to connect to database ... jdbc:sqlite:C:/Users/danie/Desktop/UBB/SEMESTRUL 4/PROGRAMMING ENVIRONMENTS/Repo/GradleModule1/cars.db
+09 Mar 2026 18:59:08,228 INFO  JdbcUtils 29 getNewConnection - user: null
+09 Mar 2026 18:59:08,229 INFO  JdbcUtils 30 getNewConnection - pass: null
+09 Mar 2026 18:59:08,378 TRACE JdbcUtils 55 getConnection - Exit with(org.sqlite.jdbc4.JDBC4Connection@4738a206)
+09 Mar 2026 18:59:08,387 TRACE CarsDBRepository 96 add - Exit saved 1 instances 
+09 Mar 2026 18:59:08,388 TRACE CarsDBRepository 103 add - Exit
+09 Mar 2026 18:59:08,388 TRACE CarsDBRepository 131 findAll - Enter
+09 Mar 2026 18:59:08,388 TRACE JdbcUtils 46 getConnection - Enter
+09 Mar 2026 18:59:08,389 TRACE JdbcUtils 55 getConnection - Exit with(org.sqlite.jdbc4.JDBC4Connection@4738a206)
+09 Mar 2026 18:59:08,392 TRACE CarsDBRepository 154 findAll - Exit with([Id=1 Dacia Sandero 2019, Id=2 Skoda Octavia 2020, Id=3 Tesla Model S 2019, Id=4 Tesla Model S 2019])
+09 Mar 2026 18:59:08,392 TRACE CarsDBRepository 24 findByManufacturer - Enter finding cars with manufacturer Tesla
+09 Mar 2026 18:59:08,392 TRACE JdbcUtils 46 getConnection - Enter
+09 Mar 2026 18:59:08,392 TRACE JdbcUtils 55 getConnection - Exit with(org.sqlite.jdbc4.JDBC4Connection@4738a206)
+09 Mar 2026 18:59:08,393 TRACE CarsDBRepository 44 findByManufacturer - Exit found 2 cars
+09 Mar 2026 19:04:58,559 INFO  CarsDBRepository 18 <init> - Initializing CarsDBRepository with properties: {jdbc.url=jdbc:sqlite:C:/Users/danie/Desktop/UBB/SEMESTRUL 4/PROGRAMMING ENVIRONMENTS/Repo/GradleModule1/cars.db} 
+09 Mar 2026 19:04:58,572 TRACE CarsDBRepository 88 add - Enter saving task Id=0 Ferrari Model X 2019 
+09 Mar 2026 19:04:58,573 TRACE JdbcUtils 46 getConnection - Enter
+09 Mar 2026 19:04:58,573 TRACE JdbcUtils 23 getNewConnection - Enter
+09 Mar 2026 19:04:58,573 INFO  JdbcUtils 28 getNewConnection - trying to connect to database ... jdbc:sqlite:C:/Users/danie/Desktop/UBB/SEMESTRUL 4/PROGRAMMING ENVIRONMENTS/Repo/GradleModule1/cars.db
+09 Mar 2026 19:04:58,574 INFO  JdbcUtils 29 getNewConnection - user: null
+09 Mar 2026 19:04:58,574 INFO  JdbcUtils 30 getNewConnection - pass: null
+09 Mar 2026 19:04:58,766 TRACE JdbcUtils 55 getConnection - Exit with(org.sqlite.jdbc4.JDBC4Connection@4738a206)
+09 Mar 2026 19:04:58,776 TRACE CarsDBRepository 96 add - Exit saved 1 instances 
+09 Mar 2026 19:04:58,777 TRACE CarsDBRepository 103 add - Exit
+09 Mar 2026 19:04:58,778 TRACE CarsDBRepository 131 findAll - Enter
+09 Mar 2026 19:04:58,779 TRACE JdbcUtils 46 getConnection - Enter
+09 Mar 2026 19:04:58,780 TRACE JdbcUtils 55 getConnection - Exit with(org.sqlite.jdbc4.JDBC4Connection@4738a206)
+09 Mar 2026 19:04:58,783 TRACE CarsDBRepository 154 findAll - Exit with([Id=1 Dacia Sandero 2019, Id=2 Skoda Octavia 2020, Id=3 Tesla Model S 2019, Id=4 Tesla Model S 2019, Id=5 Ferrari Model X 2019])
+09 Mar 2026 19:04:58,784 TRACE CarsDBRepository 24 findByManufacturer - Enter finding cars with manufacturer Tesla
+09 Mar 2026 19:04:58,784 TRACE JdbcUtils 46 getConnection - Enter
+09 Mar 2026 19:04:58,784 TRACE JdbcUtils 55 getConnection - Exit with(org.sqlite.jdbc4.JDBC4Connection@4738a206)
+09 Mar 2026 19:04:58,786 TRACE CarsDBRepository 44 findByManufacturer - Exit found 2 cars
+09 Mar 2026 19:34:14,826 INFO  CarsDBRepository 18 <init> - Initializing CarsDBRepository with properties: {jdbc.url=jdbc:sqlite:C:/Users/danie/Desktop/UBB/SEMESTRUL 4/PROGRAMMING ENVIRONMENTS/Repo/GradleModule1/cars.db} 
+09 Mar 2026 19:34:14,841 TRACE CarsDBRepository 88 add - Enter saving task Id=0 Ferrari Model X 2019 
+09 Mar 2026 19:34:14,842 TRACE JdbcUtils 46 getConnection - Enter
+09 Mar 2026 19:34:14,842 TRACE JdbcUtils 23 getNewConnection - Enter
+09 Mar 2026 19:34:14,842 INFO  JdbcUtils 28 getNewConnection - trying to connect to database ... jdbc:sqlite:C:/Users/danie/Desktop/UBB/SEMESTRUL 4/PROGRAMMING ENVIRONMENTS/Repo/GradleModule1/cars.db
+09 Mar 2026 19:34:14,842 INFO  JdbcUtils 29 getNewConnection - user: null
+09 Mar 2026 19:34:14,843 INFO  JdbcUtils 30 getNewConnection - pass: null
+09 Mar 2026 19:34:15,038 TRACE JdbcUtils 55 getConnection - Exit with(org.sqlite.jdbc4.JDBC4Connection@4738a206)
+09 Mar 2026 19:34:15,050 TRACE CarsDBRepository 96 add - Exit saved 1 instances 
+09 Mar 2026 19:34:15,051 TRACE CarsDBRepository 103 add - Exit
+09 Mar 2026 19:34:15,052 TRACE CarsDBRepository 131 findAll - Enter
+09 Mar 2026 19:34:15,052 TRACE JdbcUtils 46 getConnection - Enter
+09 Mar 2026 19:34:15,053 TRACE JdbcUtils 55 getConnection - Exit with(org.sqlite.jdbc4.JDBC4Connection@4738a206)
+09 Mar 2026 19:34:15,061 TRACE CarsDBRepository 154 findAll - Exit with([Id=1 Dacia Sandero 2019, Id=2 Skoda Octavia 2020, Id=3 Tesla Model S 2019, Id=4 Tesla Model S 2019, Id=5 Ferrari Model X 2019, Id=6 Ferrari Model X 2019])
+09 Mar 2026 19:34:15,062 TRACE CarsDBRepository 24 findByManufacturer - Enter finding cars with manufacturer Tesla
+09 Mar 2026 19:34:15,062 TRACE JdbcUtils 46 getConnection - Enter
+09 Mar 2026 19:34:15,063 TRACE JdbcUtils 55 getConnection - Exit with(org.sqlite.jdbc4.JDBC4Connection@4738a206)
+09 Mar 2026 19:34:15,063 TRACE CarsDBRepository 44 findByManufacturer - Exit found 2 cars
