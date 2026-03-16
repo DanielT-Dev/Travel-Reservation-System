@@ -29,5 +29,26 @@
       <jdbc-url>jdbc:sqlite:C:\Users\danie\Desktop\UBB\SEMESTRUL 4\PROGRAMMING ENVIRONMENTS\Repo\GradleModule1\reservations.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="users.db [2]" uuid="eace4905-a803-4005-9327-d19a1ceb55d9">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\danie\Desktop\UBB\SEMESTRUL 4\PROGRAMMING ENVIRONMENTS\Repo\JavaGradleServer\users.db</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="races.db [2]" uuid="d896dd94-2bd8-4353-a078-8b013e1ff503">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\danie\Desktop\UBB\SEMESTRUL 4\PROGRAMMING ENVIRONMENTS\Repo\JavaGradleServer\races.db</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="reservations.db [2]" uuid="82a352d7-62f0-4881-b3ad-5b4480492bff">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\danie\Desktop\UBB\SEMESTRUL 4\PROGRAMMING ENVIRONMENTS\Repo\JavaGradleServer\reservations.db</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
