@@ -50,5 +50,12 @@
       <jdbc-url>jdbc:sqlite:C:\Users\danie\Desktop\UBB\SEMESTRUL 4\PROGRAMMING ENVIRONMENTS\Repo\JavaGradleServer\reservations.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="mydatabase.db" uuid="bd4761c6-9c3f-41ef-8afc-03dd577b7688">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:mydatabase.db</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
