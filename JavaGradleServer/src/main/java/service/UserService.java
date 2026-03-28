@@ -3,6 +3,7 @@ package service;
 import model.User;
 import repository.UserDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,46 +15,40 @@ public class UserService {
         this.userDAO = userDAO;
     }
 
-    // CREATE
-    public void addUser(String name, String email, String password) {
-        User user = new User(name, email, password);
-        userDAO.save(user);
+    public void createUser(User user) {
+        userDAO.add(user);
     }
 
-    // READ ALL
-    public List<User> findAll() {
-        return userDAO.findAll();
+    public List<User> getAllUsers() {
+        return new ArrayList<>(userDAO.getAll());
     }
 
-    // READ BY ID
-    public Optional<User> getUserById(int id) {
-        return Optional.ofNullable(userDAO.findById(id));
+    public User getUserById(int id) {
+        return userDAO.findById(id);
     }
 
-    // UPDATE
-    public void updateUser(int id, String name, String email, String password) {
-        User user = new User(id, name, email, password);
-        userDAO.update(user);
+    public void updateUser(User user) {
+        userDAO.update(user, user.getId());
     }
 
-    // DELETE
     public void deleteUser(int id) {
-        userDAO.deleteById(id);
+        User user = userDAO.findById(id);
+        if (user != null) {
+            userDAO.delete(user);
+        }
     }
 
-    // LOGIN (important for your controller)
-    public Optional<User> login(String email, String password) {
-        return userDAO.findAll().stream()
-                .filter(u -> u.getEmail().equals(email) && u.getPassword().equals(password))
-                .findFirst();
-    }
-
-    // PAGINATION
-    public List<User> getUsersPage(int page) {
-        return userDAO.findPage(page);
+    public List<User> getUserPage(int pageNumber) {
+        return userDAO.findPage(pageNumber);
     }
 
     public int getTotalUsers() {
         return userDAO.getTotalUsers();
+    }
+
+    public Optional<User> login(String email, String password) {
+        return userDAO.getAll().stream()
+                .filter(u -> u.getEmail().equals(email) && u.getPassword().equals(password))
+                .findFirst();
     }
 }

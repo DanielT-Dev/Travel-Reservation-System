@@ -3,6 +3,7 @@ package service;
 import model.Race;
 import repository.RaceDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RaceService {
@@ -14,11 +15,11 @@ public class RaceService {
     }
 
     public void saveRace(Race race) {
-        raceDAO.save(race);
+        raceDAO.add(race);
     }
 
     public List<Race> findAll() {
-        return raceDAO.findAll();
+        return new ArrayList<>(raceDAO.getAll());
     }
 
     public Race getRaceById(int id) {
@@ -26,11 +27,14 @@ public class RaceService {
     }
 
     public void updateRace(Race race) {
-        raceDAO.update(race);
+        raceDAO.update(race, race.getId());
     }
 
     public void deleteRace(int id) {
-        raceDAO.deleteById(id);
+        Race race = raceDAO.findById(id);
+        if (race != null) {
+            raceDAO.delete(race);
+        }
     }
 
     public List<Race> getRacesPage(int pageNumber) {
@@ -39,5 +43,19 @@ public class RaceService {
 
     public int getTotalRaces() {
         return raceDAO.getTotalRaces();
+    }
+
+    public Race findByDetails(String dest, String date, String time) {
+        List<Race> races = new ArrayList<>(raceDAO.getAll());
+
+        for (Race race : races) {
+            if (race.getDestination().equalsIgnoreCase(dest)
+                    && race.getDate().equalsIgnoreCase(date)
+                    && race.getTime().equalsIgnoreCase(time)) {
+                return race;
+            }
+        }
+
+        return null;
     }
 }

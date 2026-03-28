@@ -2,7 +2,7 @@ package model;
 
 import java.util.List;
 
-public class Reservation {
+public class Reservation implements Identifiable<Integer> {
     private Integer id;
     private Integer id_user;
     private Integer id_race;
@@ -58,5 +58,15 @@ public class Reservation {
     @Override
     public String toString() {
         return id +  " " + name + " " + id_user + " " + id_race + " " + seats;
+    }
+
+    @Override
+    public Integer getID() {
+        return 0;
+    }
+
+    @Override
+    public void setID(Integer id) {
+
     }
 }

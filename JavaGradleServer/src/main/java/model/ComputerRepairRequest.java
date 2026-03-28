@@ -1,5 +1,7 @@
 package model;
 
+import org.apache.logging.log4j.Level;
+
 import java.io.Serializable;
 
 public  class ComputerRepairRequest implements Identifiable<Integer>, Serializable {
@@ -7,29 +9,30 @@ public  class ComputerRepairRequest implements Identifiable<Integer>, Serializab
 
     private int ID;
     private String ownerName;
-    private  String ownerAddress;
+    private String ownerAddress;
     private String phoneNumber;
     private String model;
-    private  String date;
-    private  String problemDescription;
+    private String date;
+    private String problemDescription;
 
-    public ComputerRepairRequest(){
+    public ComputerRepairRequest() {
 
         this.ID = 0;
         this.ownerName = "";
         this.ownerAddress = "";
         this.phoneNumber = "";
         this.model = "";
-        this.date ="";
+        this.date = "";
         this.problemDescription = "";
     }
-    public ComputerRepairRequest(int ID, String ownerName, String ownerAddress, String phoneNumber, String model, String date, String problemDescription){
+
+    public ComputerRepairRequest(int ID, String ownerName, String ownerAddress, String phoneNumber, String model, String date, String problemDescription) {
         this.ID = ID;
         this.ownerName = ownerName;
         this.ownerAddress = ownerAddress;
         this.phoneNumber = phoneNumber;
         this.model = model;
-        this.date =date;
+        this.date = date;
         this.problemDescription = problemDescription;
     }
 
@@ -84,21 +87,22 @@ public  class ComputerRepairRequest implements Identifiable<Integer>, Serializab
         this.problemDescription = problemDescription;
     }
 
-    public Integer getID(){
+    public Integer getID() {
         return ID;
     }
-    public void setID(Integer id){
-        ID = id;
+
+    public void setID(Integer id) {
+
     }
 
     @Override
     public String toString() {
         return
                 "ID=" + ID +
-                ", ownerName='" + ownerName + '\'' +
-                ", model='" + model + '\'' +
-                ", date='" + date + '\'' +
-                ", problemDescription='" + problemDescription + '\'';
+                        ", ownerName='" + ownerName + '\'' +
+                        ", model='" + model + '\'' +
+                        ", date='" + date + '\'' +
+                        ", problemDescription='" + problemDescription + '\'';
 
     }
 }

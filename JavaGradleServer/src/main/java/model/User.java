@@ -1,6 +1,6 @@
 package model;
 
-public class User {
+public class User implements Identifiable<Integer> {
     private Integer id;
     private String name;
     private String email;
@@ -46,5 +46,15 @@ public class User {
     @Override
     public String toString() {
         return id + " " +  name + " " + email + " " + password;
+    }
+
+    @Override
+    public Integer getID() {
+        return 0;
+    }
+
+    @Override
+    public void setID(Integer id) {
+
     }
 }

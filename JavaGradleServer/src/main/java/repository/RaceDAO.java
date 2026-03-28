@@ -7,24 +7,25 @@ import model.Race;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class RaceDAO {
+public class RaceDAO extends AbstractRepository<Race, Integer> {
 
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final int PAGE_SIZE = 5;
 
-    /* CREATE */
-    public void save(Race race) {
+    @Override
+    public void add(Race race) {
         String sql = "INSERT INTO race(destination, date, time, seats) VALUES (?, ?, ?, ?)";
+
         try (Connection conn = Database.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            String seatsJson = mapper.writeValueAsString(race.getAvaiableSeats());
             ps.setString(1, race.getDestination());
             ps.setString(2, race.getDate());
             ps.setString(3, race.getTime());
-            ps.setString(4, seatsJson);
+            ps.setString(4, mapper.writeValueAsString(race.getAvaiableSeats()));
             ps.executeUpdate();
 
         } catch (Exception e) {
@@ -32,38 +33,43 @@ public class RaceDAO {
         }
     }
 
-    /* READ ALL */
-    public List<Race> findAll() {
-        List<Race> races = new ArrayList<>();
-        String sql = "SELECT * FROM race";
+    @Override
+    public void delete(Race race) {
+        String sql = "DELETE FROM race WHERE id = ?";
 
         try (Connection conn = Database.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            while (rs.next()) {
-                String seatsJson = rs.getString("seats");
-                List<Boolean> seats = mapper.readValue(seatsJson, new TypeReference<List<Boolean>>() {});
-                races.add(new Race(
-                        rs.getInt("id"),
-                        rs.getString("destination"),
-                        rs.getString("date"),
-                        rs.getString("time"),
-                        seats
-                ));
-            }
+            ps.setInt(1, race.getId());
+            ps.executeUpdate();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return races;
     }
 
-    /* READ BY ID */
-    public Race findById(int id) {
+    @Override
+    public void update(Race race, Integer id) {
+        String sql = "UPDATE race SET destination = ?, date = ?, time = ?, seats = ? WHERE id = ?";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, race.getDestination());
+            ps.setString(2, race.getDate());
+            ps.setString(3, race.getTime());
+            ps.setString(4, mapper.writeValueAsString(race.getAvaiableSeats()));
+            ps.setInt(5, id);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Race findById(Integer id) {
         String sql = "SELECT * FROM race WHERE id = ?";
-        Race race = null;
 
         try (Connection conn = Database.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -72,60 +78,39 @@ public class RaceDAO {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                String seatsJson = rs.getString("seats");
-                List<Boolean> seats = mapper.readValue(seatsJson, new TypeReference<List<Boolean>>() {});
-                race = new Race(
-                        rs.getInt("id"),
-                        rs.getString("destination"),
-                        rs.getString("date"),
-                        rs.getString("time"),
-                        seats
-                );
+                return mapRow(rs);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return race;
+        return null;
     }
 
-    /* UPDATE */
-    public void update(Race race) {
-        String sql = "UPDATE race SET destination = ?, date = ?, time = ?, seats = ? WHERE id = ?";
+    @Override
+    public Collection<Race> getAll() {
+        List<Race> races = new ArrayList<>();
+        String sql = "SELECT * FROM race";
 
         try (Connection conn = Database.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-            String seatsJson = mapper.writeValueAsString(race.getAvaiableSeats());
-            ps.setString(1, race.getDestination());
-            ps.setString(2, race.getDate());
-            ps.setString(3, race.getTime());
-            ps.setString(4, seatsJson);
-            ps.setInt(5, race.getId());
-            ps.executeUpdate();
+            while (rs.next()) {
+                races.add(mapRow(rs));
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return races;
     }
 
-    /* DELETE */
-    public void deleteById(int id) {
-        String sql = "DELETE FROM race WHERE id = ?";
-
-        try (Connection conn = Database.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setInt(1, id);
-            ps.executeUpdate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @Override
+    public Iterable<Race> findAll() {
+        return getAll();
     }
 
-    /* PAGINATION */
     public List<Race> findPage(int pageNumber) {
         List<Race> races = new ArrayList<>();
         int offset = (pageNumber - 1) * PAGE_SIZE;
@@ -139,39 +124,41 @@ public class RaceDAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                String seatsJson = rs.getString("seats");
-                List<Boolean> seats = mapper.readValue(seatsJson, new TypeReference<List<Boolean>>() {});
-                races.add(new Race(
-                        rs.getInt("id"),
-                        rs.getString("destination"),
-                        rs.getString("date"),
-                        rs.getString("time"),
-                        seats
-                ));
+                races.add(mapRow(rs));
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return races;
     }
 
-    /* TOTAL COUNT */
     public int getTotalRaces() {
         String sql = "SELECT COUNT(*) FROM race";
-        int total = 0;
 
         try (Connection conn = Database.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
-            if (rs.next()) total = rs.getInt(1);
+            if (rs.next()) return rs.getInt(1);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return 0;
+    }
 
-        return total;
+    private Race mapRow(ResultSet rs) throws Exception {
+        List<Boolean> seats = mapper.readValue(
+                rs.getString("seats"),
+                new TypeReference<List<Boolean>>() {}
+        );
+        return new Race(
+                rs.getInt("id"),
+                rs.getString("destination"),
+                rs.getString("date"),
+                rs.getString("time"),
+                seats
+        );
     }
 }

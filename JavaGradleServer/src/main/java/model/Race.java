@@ -2,7 +2,7 @@ package model;
 
 import java.util.List;
 
-public class Race {
+public class Race implements Identifiable<Integer> {
     private Integer id;
     private String destination;
     private String date;
@@ -57,5 +57,15 @@ public class Race {
     @Override
     public String toString() {
         return id + " " + destination + " " + date + " " + time + " " + avaiableSeats;
+    }
+
+    @Override
+    public Integer getID() {
+        return 0;
+    }
+
+    @Override
+    public void setID(Integer id) {
+
     }
 }
