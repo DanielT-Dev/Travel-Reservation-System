@@ -12,16 +12,19 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.Race;
-import service.RaceService;
+import network.NetworkClient;
+
+import java.util.List;
 
 public class RaceController {
 
-    private final RaceService raceService;
+    private final NetworkClient networkClient;
     private final TableView<Race> table = new TableView<>();
     private final Label statusLabel = new Label();
 
-    public RaceController(RaceService raceService) {
-        this.raceService = raceService;
+    public RaceController(NetworkClient networkClient) {
+        this.networkClient = networkClient;
+        this.networkClient.onDataChanged(this::refreshTable);
     }
 
     public VBox getView() {
@@ -85,8 +88,9 @@ public class RaceController {
     }
 
     public void refreshTable() {
-        table.setItems(FXCollections.observableArrayList(raceService.findAll()));
-        statusLabel.setText("Total races: " + raceService.getTotalRaces());
+        List<Race> races = networkClient.getAllRaces();
+        table.setItems(FXCollections.observableArrayList(races));
+        statusLabel.setText("Total races: " + races.size());
     }
 
     private String buttonStyle() {

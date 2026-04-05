@@ -11,6 +11,9 @@ namespace model
         public string Name { get; set; }
         public List<int> Seats { get; set; }
 
+        // Added for DataGrid display in the WPF UI
+        public string SeatsDisplay => Seats != null ? string.Join(", ", Seats) : "—";
+
         // Constructor with Id
         public Reservation(int? id, int? idUser, int? idRace, string name, List<int> seats)
         {

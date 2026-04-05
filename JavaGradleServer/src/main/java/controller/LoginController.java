@@ -11,21 +11,15 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import service.RaceService;
-import service.ReservationService;
-import service.UserService;
+import network.NetworkClient;
 
 public class LoginController {
 
-    private final UserService userService;
-    private final RaceService raceService;
-    private final ReservationService reservationService;
+    private final NetworkClient networkClient;
     private final Stage stage;
 
-    public LoginController(UserService userService, RaceService raceService, ReservationService reservationService, Stage stage) {
-        this.userService = userService;
-        this.raceService = raceService;
-        this.reservationService = reservationService;
+    public LoginController(NetworkClient networkClient, Stage stage) {
+        this.networkClient = networkClient;
         this.stage = stage;
     }
 
@@ -70,14 +64,9 @@ public class LoginController {
             loadingIndicator.setVisible(true);
             loginButton.setDisable(true);
 
+            // Run login in background thread to avoid freezing GUI
             new Thread(() -> {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    Thread.currentThread().interrupt();
-                }
-
-                boolean success = userService.login(email, password).isPresent();
+                boolean success = networkClient.login(email, password);
 
                 Platform.runLater(() -> {
                     loadingIndicator.setVisible(false);
@@ -87,9 +76,7 @@ public class LoginController {
                         messageLabel.setStyle("-fx-text-fill: #2e7d32; -fx-font-size: 13px;");
                         messageLabel.setText("Login successful!");
 
-                        MainController mainController =
-                                new MainController(userService, raceService, reservationService);
-
+                        MainController mainController = new MainController(networkClient);
                         Scene mainScene = new Scene(mainController.getView(), 1000, 850);
                         stage.setScene(mainScene);
                         stage.setTitle("Main Dashboard");

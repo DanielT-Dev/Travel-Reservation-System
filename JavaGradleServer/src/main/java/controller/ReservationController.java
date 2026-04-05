@@ -2,22 +2,24 @@ package controller;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Race;
-import service.ReservationService;
+import network.NetworkClient;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReservationController {
 
-    private final ReservationService reservationService;
+    private final NetworkClient networkClient;
     private final Race race;
 
-    public ReservationController(ReservationService reservationService, Race race) {
-        this.reservationService = reservationService;
+    public ReservationController(NetworkClient networkClient, Race race) {
+        this.networkClient = networkClient;
         this.race = race;
     }
 
@@ -36,11 +38,16 @@ public class ReservationController {
 
         reserveBtn.setOnAction(e -> {
             try {
-                String name = nameField.getText();
-                int numberOfSeats = Integer.parseInt(seatsField.getText());
+                String name = nameField.getText().trim();
+                int numberOfSeats = Integer.parseInt(seatsField.getText().trim());
 
-                // get free seats
-                List<Integer> freeSeats = reservationService.getFreeSeats(race.getId());
+                if (name.isEmpty()) {
+                    message.setText("Client name is required!");
+                    message.setStyle("-fx-text-fill: red;");
+                    return;
+                }
+
+                List<Integer> freeSeats = networkClient.getFreeSeats(race.getId());
 
                 if (freeSeats.size() < numberOfSeats) {
                     message.setText("Not enough available seats!");
@@ -48,13 +55,12 @@ public class ReservationController {
                     return;
                 }
 
-                // pick first N free seats
                 List<Integer> selectedSeats = new ArrayList<>();
                 for (int i = 0; i < numberOfSeats; i++) {
                     selectedSeats.add(freeSeats.get(i));
                 }
 
-                reservationService.createReservation(
+                networkClient.createReservation(
                         race.getId(),
                         name,
                         selectedSeats
@@ -63,8 +69,11 @@ public class ReservationController {
                 message.setText("Reservation successful!");
                 message.setStyle("-fx-text-fill: green;");
 
+            } catch (NumberFormatException ex) {
+                message.setText("Invalid number of seats!");
+                message.setStyle("-fx-text-fill: red;");
             } catch (Exception ex) {
-                message.setText("Invalid input!");
+                message.setText("Reservation failed!");
                 message.setStyle("-fx-text-fill: red;");
             }
         });

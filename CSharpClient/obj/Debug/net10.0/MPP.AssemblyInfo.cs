@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MPP")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e9efbdf880f53967c1475cc501ffddd302315c3b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8150ef8d5c887b840eecc2a54edbae9bb8667f16")]
 [assembly: System.Reflection.AssemblyProductAttribute("MPP")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MPP")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

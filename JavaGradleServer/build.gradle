@@ -27,6 +27,8 @@ dependencies {
 
     // Source: https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
     runtimeOnly 'org.xerial:sqlite-jdbc:3.51.2.0'
+
+    implementation 'com.google.code.gson:gson:2.13.2'
 }
 
 javafx {

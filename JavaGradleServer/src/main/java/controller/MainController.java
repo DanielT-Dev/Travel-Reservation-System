@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -7,33 +8,47 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import model.SeatDTO;
-import model.User;
 import model.Race;
 import model.Reservation;
-import service.UserService;
-import service.RaceService;
-import service.ReservationService;
+import model.SeatDTO;
+import model.User;
+import network.NetworkClient;
 
 import java.util.List;
 
 public class MainController {
 
-    private final UserService userService;
-    private final RaceService raceService;
-    private final ReservationService reservationService;
+    private final NetworkClient networkClient;
 
     private final TableView<User> userTable = new TableView<>();
     private final TableView<Race> raceTable = new TableView<>();
     private final TableView<Reservation> reservationTable = new TableView<>();
 
-    private final double TABLE_HEIGHT = 200; // fixed height
-    private final double TABLE_WIDTH = 950;  // fixed width
+    private final double TABLE_HEIGHT = 200;
+    private final double TABLE_WIDTH = 950;
 
-    public MainController(UserService userService, RaceService raceService, ReservationService reservationService) {
-        this.userService = userService;
-        this.raceService = raceService;
-        this.reservationService = reservationService;
+    private void refreshTables() {
+        Task<Void> refreshTask = new Task<>() {
+            @Override
+            protected Void call() {
+                var users = networkClient.getAllUsers();
+                var races = networkClient.getAllRaces();
+                var reservations = networkClient.getAllReservations();
+
+                javafx.application.Platform.runLater(() -> {
+                    userTable.getItems().setAll(users);
+                    raceTable.getItems().setAll(races);
+                    reservationTable.getItems().setAll(reservations);
+                });
+                return null;
+            }
+        };
+        new Thread(refreshTask).start();
+    }
+
+    public MainController(NetworkClient networkClient) {
+        this.networkClient = networkClient;
+        this.networkClient.onDataChanged(this::refreshTables);
     }
 
     private void openSearchWindow() {
@@ -49,7 +64,6 @@ public class MainController {
         Button searchBtn = new Button("Search");
         Button reserveBtn = new Button("Reserve Seats");
 
-        // Seat table
         TableView<SeatDTO> seatTable = new TableView<>();
         seatTable.setPrefHeight(300);
         seatTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -62,7 +76,6 @@ public class MainController {
 
         seatTable.getColumns().addAll(seatCol, nameCol);
 
-        // Track selected race
         final Race[] currentRace = new Race[1];
 
         searchBtn.setOnAction(e -> {
@@ -70,19 +83,21 @@ public class MainController {
             String date = dateField.getText().trim();
             String time = timeField.getText().trim();
 
-            currentRace[0] = raceService.findByDetails(dest, date, time);
+            currentRace[0] = networkClient.findRace(dest, date, time);
+
             if (currentRace[0] == null) {
                 seatTable.getItems().clear();
                 return;
             }
 
-            List<SeatDTO> seats = reservationService.getSeatsForRace(currentRace[0].getId());
+            List<SeatDTO> seats = networkClient.getSeatsForRace(currentRace[0].getId());
             seatTable.getItems().setAll(seats);
         });
 
         reserveBtn.setOnAction(ev -> {
-            if (currentRace[0] == null) return; // No race selected
-            ReservationController rc = new ReservationController(reservationService, currentRace[0]);
+            if (currentRace[0] == null) return;
+
+            ReservationController rc = new ReservationController(networkClient, currentRace[0]);
             rc.openWindow();
         });
 
@@ -105,7 +120,7 @@ public class MainController {
         logoutButton.setOnAction(e -> {
             Stage stage = (Stage) logoutButton.getScene().getWindow();
 
-            LoginController loginController = new LoginController(userService, raceService, reservationService, stage);
+            LoginController loginController = new LoginController(networkClient, stage);
             Scene loginScene = new Scene(loginController.getView(), 400, 300);
 
             stage.setScene(loginScene);
@@ -131,21 +146,16 @@ public class MainController {
 
         cancelReservationBtn.setOnAction(e -> {
             Reservation selected = reservationTable.getSelectionModel().getSelectedItem();
-            if (selected == null) return; // nothing selected
+            if (selected == null) return;
 
-            // Delete the reservation
-            reservationService.deleteReservation(selected.getId());
-
-            // Refresh reservation table
-            reservationTable.getItems().setAll(reservationService.findAll());
-
-            // Optionally refresh race table if you display available seats
-            raceTable.getItems().setAll(raceService.findAll());
+            networkClient.cancelReservation(selected.getId());
+            refreshTables();
         });
 
         buildUserTable();
         buildRaceTable();
         buildReservationTable();
+        refreshTables();
 
         VBox root = new VBox(15, logoutButton, openTaskWindowButton, cancelReservationBtn, userTable, raceTable, reservationTable);
         root.setPadding(new Insets(20));
@@ -166,7 +176,6 @@ public class MainController {
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
 
         userTable.getColumns().addAll(idCol, nameCol, emailCol);
-        userTable.getItems().setAll(userService.getAllUsers());
     }
 
     private void buildRaceTable() {
@@ -186,7 +195,6 @@ public class MainController {
         timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
 
         raceTable.getColumns().addAll(idCol, destCol, dateCol, timeCol);
-        raceTable.getItems().setAll(raceService.findAll());
     }
 
     private void buildReservationTable() {
@@ -206,6 +214,5 @@ public class MainController {
         raceCol.setCellValueFactory(new PropertyValueFactory<>("id_race"));
 
         reservationTable.getColumns().addAll(idCol, nameCol, userCol, raceCol);
-        reservationTable.getItems().setAll(reservationService.findAll());
     }
 }
